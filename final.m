@@ -648,3 +648,400 @@ Iout=Iout(1:size(I,1),1:size(I,2));
 Ihmf=exp(Iout)-1;
 
 imshowpair(I, Ihmf, 'montage');
+
+
+
+Lecture 7
+1. Analog vs. Digital Filters
+The lecture starts by comparing a six-pole Chebyshev analog filter with a 129-point windowed-sinc digital filter, both designed for a low-pass cutoff at 1 kHz.
+
+
+Performance Comparison:
+
+
+Frequency Response & Passband: The analog filter shows a 6% ripple in its passband, which is a variation in the signal's amplitude. In contrast, the digital filter's passband is almost perfectly flat (within 0.02%). The flatness of digital filters is limited by round-off error, making them significantly flatter than analog filters, which are limited by the precision of their physical components like resistors and capacitors.
+
+
+
+
+Roll-off and Stopband: When looking at the frequency response on a logarithmic scale, the digital filter demonstrates a much sharper "roll-off" (the transition from passband to stopband) and superior "stopband attenuation" (blocking of unwanted frequencies). Improving these aspects in an analog filter is difficult, whereas it can be achieved with simple modifications in a digital filter.
+
+
+
+
+Step Response & Phase: The digital filter has a symmetrical step response, which indicates it has a linear phase. The analog filter's step response is not symmetrical, meaning it has a nonlinear phase.
+
+
+Inherent Advantages of Analog Filters:
+Despite the performance advantages of digital filters, analog filters are necessary in certain situations due to two main advantages:
+
+
+Speed: Analog circuits are significantly faster. An operational amplifier (op-amp) can operate at speeds 10 to 100 times faster than a digital system processing data with FFT convolution.
+
+
+
+Dynamic Range: Analog systems have a much larger dynamic range.
+
+
+Amplitude: A standard op-amp has a dynamic range of about ten million, whereas a 12-bit Analog-to-Digital Converter (ADC) has a dynamic range of about 14,000.
+
+
+Frequency: It is easier for analog circuits to handle a wide range of frequencies simultaneously. For a digital system to capture a low frequency like 0.01 Hz while sampling at 200 kHz, it would need to process an enormous number of data points (20 million)
+
+
+
+
+Lecture 8
+
+1. The Mechanics of Human Hearing
+The process of hearing involves the outer, middle, and inner ear working together to transmit sound to the brain.
+
+
+Outer and Middle Ear:
+
+The outer ear, consisting of the visible part (pinna) and the ear canal, directs sound waves to the tympanic membrane (eardrum), causing it to vibrate.
+
+
+The middle ear acts as an "impedance matching network". Sound waves struggle to pass from air (low impedance) to the liquid-filled inner ear (high impedance), with most energy reflecting away.
+
+
+To overcome this, the middle ear uses the difference in area between the large eardrum (about 60 mm²) and the small oval window (about 4 mm²) to increase the sound wave's pressure by approximately 15 times, ensuring more sound energy enters the inner ear.
+
+Inner Ear (Cochlea):
+
+The cochlea is a liquid-filled, snail-shaped tube that contains the basilar membrane.
+
+
+The basilar membrane functions as a frequency spectrum analyzer. Different parts of the membrane resonate at different frequencies.
+
+High-frequency sounds cause vibrations near the oval window, while low-frequency sounds cause vibrations at the far end. This is known as the 
+
+place principle, where specific nerve fibers respond to specific frequencies.
+
+2. How the Brain Interprets Sound
+The brain uses multiple schemes to encode and perceive sound.
+
+
+The Volley Principle: This is another method for encoding audio information, particularly for frequencies below 4 kHz.
+
+
+A single neuron can fire in response to each cycle of a sound wave up to about 500 Hz.
+
+For higher frequencies, groups of neurons take turns firing, allowing the brain to perceive frequencies up to about 4,000 Hz.
+
+Loudness and Decibels (dB):
+
+Sound intensity is measured on a logarithmic scale called decibels (dB SPL). 0 dB SPL is the weakest sound a human can typically hear, while pain occurs around 140 dB SPL. Normal conversation is about 60 dB SPL.
+
+
+
+
+
+The human hearing range is about 120 dB, a one-million-fold difference in amplitude. We can distinguish about 120 different levels of loudness.
+
+
+Our perception of loudness is not linear. It relates to sound power by an exponent of 1/3. This means that to cut the 
+
+perceived loudness by 80%, you must eliminate 99% of the sound power.
+
+3. Directional Hearing
+Having two ears provides the ability to identify the direction of a sound. This is achieved in two ways:
+
+
+Shadowing: For frequencies above 1 kHz, the head casts a "sound shadow," making the signal stronger in the ear nearer to the source.
+
+
+
+Time Delay: The ear farther from the sound source hears the sound slightly later because of the greater distance the sound must travel.
+
+Interestingly, when identical monaural sound is played through headphones, the brain cannot find any directional cues and concludes the sound is coming from inside the listener's head.
+
+4. The Qualities of Sound: Loudness, Pitch, and Timbre
+A continuous sound is perceived in three parts:
+
+
+Loudness: The intensity of the sound wave.
+
+
+Pitch: The fundamental frequency of the sound.
+
+
+Timbre: The quality or character of the sound, determined by its harmonic content.
+
+
+The lecture emphasizes that 
+
+human hearing is very insensitive to the phase of a sound wave. Two waveforms with the same frequency components but different phases (and therefore different shapes) will sound identical. This is because as sound reflects off surfaces in an environment, the relative phases of its frequencies become randomized anyway.
+
+
+
+
+
+Timbre arises from the presence and relative amplitudes of harmonics (multiples of the fundamental frequency). A violin and a piano playing the same note (e.g., A at 220 Hz) have the same pitch, but their different harmonic structures give them a different timbre.
+
+
+
+5. Music and the Logarithmic Scale
+The standard musical scale is built upon the relationship between fundamental frequencies and their harmonics.
+
+
+The Piano Keyboard: The note 'A' repeats across the keyboard at frequencies that are multiples of each other (e.g., 27.5 Hz, 55 Hz, 110 Hz, etc.). Because these notes are harmonics of one another, they sound similar.
+
+
+Octaves: An octave represents a doubling of frequency. On a piano, this occurs over eight white keys. Since octaves are based on a repeated doubling of frequency, they represent a logarithmic scale.
+
+
+Sampling Rate: The fact that audio information is distributed logarithmically is important and directly impacts the required sampling rate for digital audio signals.
+
+
+Lecture 9
+
+1. The Trade-off: Sound Quality vs. Data Rate
+When designing a digital audio system, one must balance sound quality with the data rate that can be tolerated. This leads to three main categories:
+
+
+
+
+High-Fidelity Music: The primary goal is the best possible sound quality, and a high data rate is acceptable.
+
+
+Example (CD): Uses a 44.1 kHz sampling rate and 16-bit precision, resulting in a data rate of 706k bits/sec, which is considered better than human hearing.
+
+
+Telephone Communication: The goal is natural-sounding speech at a low data rate to minimize system cost.
+
+
+Example: Uses an 8 kHz sampling rate and 8-bit precision (with companding), for a data rate of 64k bits/sec. This is good for speech but poor for music.
+
+
+
+
+
+
+Compressed Speech: Reducing the data rate is the most important factor, even if it means the sound is somewhat unnatural. This is used in applications like military communications and voice mail.
+
+
+Example (Linear Predictive Coding): Can reduce the data rate to as low as 4k bits/sec, but with poor voice quality.
+
+
+2. High-Fidelity Audio: The Compact Disc (CD)
+High-fidelity audio systems are designed to exceed the limits of human hearing to ensure the reproduction is faithful to the original. The CD brought this technology to the masses.
+
+
+How a CD Works:
+
+Digital data is stored as a series of tiny dark "pits" burned onto a shiny, reflective surface.
+
+An optical sensor reads this data by detecting the reflections as the disc spins.
+
+The raw data is read at a rate of 4.3 million bits per second (Mbits/sec).
+
+Encoding for Reliability:
+
+
+Eight-to-Fourteen Modulation (EFM): Raw 8-bit chunks of data are converted into 14-bit codes before being stored on the disc. This special encoding ensures the physical pits are not too short or too long, which reduces errors during optical pickup. The system uses a look-up table to reverse the process during playback.
+
+
+
+
+Reed-Solomon Coding: This is a method for error detection and correction. If errors are found, the system can correct them using redundant data, hide them by interpolating between samples, or mute them by setting the sample to zero.
+
+
+These encoding schemes triple the amount of data stored on the disc compared to the raw audio signal.
+
+Playback and Filtering:
+
+To make the analog filtering process easier, CD players use a 
+
+multirate technique called interpolation.
+
+
+They increase the sampling rate by a factor of four (from 44.1 kHz to 176.4 kHz) by inserting zero-value samples and then using a digital filter to smooth the signal.
+
+This pushes the unwanted frequencies created by the digital-to-analog conversion much higher, making them easier to remove with a simpler analog filter like a Bessel filter.
+
+Stereo and Surround Sound:
+
+Stereo systems use multiple channels (e.g., left and right) to provide a more realistic, three-dimensional sound experience.
+
+Motion pictures often use four-channel systems like 
+
+Dolby Stereo (or Dolby Surround Pro Logic for home use). These systems include left, right, center, and surround channels to anchor dialogue to the screen and create an immersive environment.
+
+
+
+
+
+3. Companding: Reducing Data Rate for Speech
+Companding is a technique used to reduce the data rate for audio signals by using unequally spaced quantization levels.
+
+
+Why it Works: Human hearing perceives loudness logarithmically. We can distinguish small changes in quiet sounds, but we don't notice similarly sized changes in loud sounds. Companding matches this characteristic, using small steps for low-amplitude signals and large steps for high-amplitude signals.
+
+
+
+Benefit: This allows telephone-quality speech to be represented with just 8 bits per sample instead of the 12 bits that would be required with linear quantization.
+
+
+Algorithms: The two main companding algorithms are µ-law (used in North America and Japan) and A-law (used in Europe). Both use a logarithmic curve to compress the signal before quantization.
+
+
+4. Speech Synthesis and Recognition
+Speech Synthesis (Creating Speech):
+
+This is based on a model of human speech production, which classifies sounds as either 
+
+voiced (like vowels, produced by vocal cord vibrations) or fricative (like 's' and 'f', produced by air turbulence).
+
+
+
+A synthesizer creates speech by selecting an excitation source (a pulse train for voiced sounds, noise for fricatives) and passing it through a digital filter that mimics the vocal tract.
+
+
+
+By updating the parameters (pitch, filter coefficients) about 40 times per second, continuous speech can be generated. This was used in the classic "Speak & Spell" toy. This method, also the basis for 
+
+
+Linear Predictive Coding (LPC), produces robotic-sounding speech but requires a very low data rate.
+
+
+Speech Recognition (Understanding Speech):
+
+Recognition algorithms typically work by extracting parameters from a speech signal and comparing them to stored templates of sounds to identify words.
+
+
+The Main Challenge: This method doesn't work very well because human understanding relies heavily on context. We use our knowledge of the world and the sentence structure to understand words that might sound identical (e.g., "spider ring" vs. "spy during").
+
+
+
+
+
+Common Limitations:
+
+They often require distinct pauses between words.
+
+Vocabularies are usually limited to a few hundred words.
+
+They must be trained for each individual speaker.
+
+Lecture 10
+
+Of course. Here is a detailed explanation of the lecture on Nonlinear Audio Processing by Associate Professor Naila Allakhverdiyeva.
+
+High-Level Summary
+This lecture introduces audio processing techniques that go beyond standard linear filtering. It focuses on two main nonlinear methods used to solve problems where linear approaches fail. The first technique is a 
+
+time-varying Wiener filter for reducing wideband noise in speech when the noise and signal occupy the same frequencies. The second is 
+
+
+homomorphic signal processing, a powerful method that transforms signals combined nonlinearly (through multiplication or convolution) into a linear problem that can be solved with standard filtering techniques. The lecture details the mechanics, applications, and significant challenges of these advanced methods.
+
+1. Reducing Wideband Noise with a Time-Varying Filter
+This technique is designed to reduce noise like magnetic tape hiss, wind, or crowd noise from speech signals. Linear filtering is not effective in these cases because the noise and the voice signal completely overlap in the frequency domain.
+
+
+
+
+The Core Concept: The method works by analyzing very short segments of the audio (e.g., 16 milliseconds).
+
+Within a short segment, the speech signal's energy is concentrated in a few large-amplitude frequencies.
+
+
+Wideband noise, in contrast, is distributed more uniformly at a low amplitude across the spectrum.
+
+By examining the amplitude of each frequency, a determination can be made:
+
+
+Large amplitude: Likely mostly signal, so it should be kept.
+
+
+Small amplitude: Likely mostly noise, so it should be discarded (set to zero).
+
+
+Mid-size amplitude: Adjusted smoothly between the two extremes.
+
+
+A Time-Varying Wiener Filter: This technique can be thought of as a Wiener filter whose frequency response is not fixed. Instead, the filter is continuously recalculated for each new segment of the signal, adapting its characteristics based on the spectrum of that specific segment.
+
+
+
+Implementation Note: Standard filtering methods like overlap-add are not valid for this nonlinear process because the changing filter response would cause misalignment between processed segments. To overcome this, the signal is broken into overlapping segments, and a smooth window is applied to each segment after processing, ensuring a smooth transition when they are recombined.
+
+
+2. Homomorphic Signal Processing
+Homomorphic processing is a technique used to separate signals that have been combined in a nonlinear way, such as through multiplication or convolution. The goal is to convert the problem into a linear one so that standard filtering can be used.
+
+
+
+For Multiplied Signals (e.g., Automatic Gain Control):
+
+
+Problem: An audio signal a[] is multiplied by a slowly changing gain signal g[] (e.g., in AM radio).
+
+Solution:
+
+Logarithm: Apply a logarithm to the combined signal a[] × g[]. This turns the multiplication into addition: 
+
+log a[] + log g[].
+
+
+
+Linear Filter: Use a high-pass filter to remove the low-frequency log g[] component, leaving log a[].
+
+
+
+Anti-Logarithm: Apply the exponential function (e 
+x
+ ) to reverse the logarithm, recovering the original signal a[].
+
+For Convolved Signals (e.g., Echo Removal):
+
+
+Problem: An audio signal x[] is convolved with an echo y[].
+
+Solution:
+
+
+Homomorphic Transform: First, a Fourier Transform turns the convolution into multiplication (X[] × Y[]). Then, a logarithm turns that multiplication into addition (
+
+log X[] + log Y[]).
+
+
+Linear Filter: A linear filter is applied to separate the two added components.
+
+
+Inverse Transform: The process is reversed with an anti-logarithm and an inverse Fourier transform to recover the original signal x[].
+
+The Cepstrum and "Liftering":
+
+When processing convolved signals, the domains are swapped: linear filtering happens in a frequency-like domain. This has led to playful jargon.
+
+
+Cepstrum: Defined as the inverse Fourier transform of the log-magnitude of the Fourier transform of a signal. The term is a rearrangement of "spectrum".
+
+
+
+Liftering: The act of filtering in the cepstral domain. Similarly, there are "long-pass" and "short-pass" filters instead of low-pass and high-pass.
+
+
+
+Challenges of Homomorphic Processing
+Despite its power, this technique has significant practical problems:
+
+
+Complex Logarithm: Audio signals have both positive and negative values, requiring the use of the more advanced complex logarithm.
+
+
+Aliasing: Applying a logarithm creates sharp corners in a waveform. To capture these without aliasing, the signal may need to be sampled at a much higher rate (e.g., 100 kHz instead of 8 kHz).
+
+
+
+
+Spectral Overlap: The process of taking a logarithm creates many harmonics. Even if the original signals (e.g., two sine waves) did not overlap in frequency, their logged versions might, making complete separation with a linear filter impossible.
+
+
+
+The lecture concludes with the key lesson from these techniques: the most effective way to process a signal is in a manner that is consistent with how it was originally formed.
+
+
+
